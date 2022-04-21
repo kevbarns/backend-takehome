@@ -6,7 +6,7 @@ const MIN_NUMBER_OF_CALL: number = 100;
 const MAX_NUMBER_OF_CALL: number = 1000;
 
 const instance: AxiosInstance = axios.create({
-  baseURL: "http://localhost:3001/",
+  baseURL: "http://127.0.0.1:3001/",
   timeout: 1000,
   headers: { "content-type": "application/json" },
 });

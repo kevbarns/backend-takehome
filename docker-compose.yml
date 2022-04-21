@@ -5,11 +5,10 @@ services:
     build:
       context: ./takeoff
       dockerfile: ./app/Dockerfile
-    ports:
-      - 8080:8080
+    network_mode: host
 
   script:
     build:
       context: ./takeoff
       dockerfile: ./script/Dockerfile
-    network_mode: "service:app"
+    network_mode: host

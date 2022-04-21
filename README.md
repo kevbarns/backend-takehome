@@ -15,15 +15,15 @@ As you probably heard during your first interview, Takeoff Labs builds social co
 Among other things, it means that we have a lot of users spreaded arround the world.
 
 We often want to send our users notifications, emails etc.<br/>
-Most of the time in real time (e.g. a new message notification) but also sometimes with a delay (e.g. when we want to reengage our users with push notifications received at a given date and time). 
+Most of the time in real time (e.g. a new message notification) but also sometimes with a delay (e.g. when we want to reengage our users with push notifications received at a given date and time).
 
-Moreover since most users are abroad, they might have different timezones which we may want to consider when scheduling particular tasks. 
+Moreover since most users are abroad, they might have different timezones which we may want to consider when scheduling particular tasks.
 
 ## Instructions
 
 In this test you will be asked to implement a solution for the second type of notification: namely those that are scheduled.
 
-Your task will be to implemented a very simple REST API with a unique endpoint that listens on `localhost:3001`.
+Your task will be to implemented a very simple REST API with a unique endpoint that listens on `127.0.0.1:3001`.
 
 This endpoint should be `POST /user` (body described below).
 
@@ -34,12 +34,13 @@ This endpoint should be `POST /user` (body described below).
 }
 ```
 
-For each request received on this endpoint, the API should send a couple of requests (which we will call *notification*) to the client app which is listening on `localhost:8080` on the `POST /` endpoint. 
+For each request received on this endpoint, the API should send a couple of requests (which we will call _notification_) to the client app which is listening on `127.0.0.1:8080` on the `POST /` endpoint.
 
-Suppose you receive a request `R` at time `T` on the `POST /user` endpoint. Here is the list of *notifications* that should be triggered:   
+Suppose you receive a request `R` at time `T` on the `POST /user` endpoint. Here is the list of _notifications_ that should be triggered:
+
 - One scheduled at `T + 2 min`
-- Two scheduled on the same Day than `Day(T)`, sent each at random times picked between 7 and 9PM in the user's `timeZone` (those are skipped if this timeframe is already past). 
-- Two at Day `Day(T) + 1`, sent each at random times picked between 8AM and 12PM.  
+- Two scheduled on the same Day than `Day(T)`, sent each at random times picked between 7 and 9PM in the user's `timeZone` (those are skipped if this timeframe is already past).
+- Two at Day `Day(T) + 1`, sent each at random times picked between 8AM and 12PM.
 
 You don't have to check if timeZone is valid as we only send valid ones.
 
