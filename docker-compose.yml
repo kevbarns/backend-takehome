@@ -1,14 +1,54 @@
 version: "3.9"
 
 services:
+  api:
+    container_name: club_api
+    ports:
+      - "3001:3001"
+    build:
+      context: ./takeoff
+      dockerfile: ./api/Dockerfile
+    networks:
+      - club_network
+
   app:
+    container_name: club_app
+    ports:
+      - "8080:8080"
     build:
       context: ./takeoff
       dockerfile: ./app/Dockerfile
-    network_mode: host
+    networks:
+      - club_network
 
   script:
+    container_name: club_script
     build:
       context: ./takeoff
       dockerfile: ./script/Dockerfile
-    network_mode: host
+    networks:
+      - club_network
+
+  mongodb:
+    image: mongo:4.2.13-bionic
+    container_name: club_mongodb
+    restart: unless-stopped
+    mem_limit: 3g
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - club_mongodb_data:/data
+    networks:
+      - club_network
+
+volumes:
+  club_mongodb_data:
+    driver: local
+    name: club_mongodb_data
+  club_server_data:
+    driver: local
+    name: club_api_data
+
+networks:
+  club_network:
+    name: club_network
