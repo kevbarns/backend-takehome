@@ -7,12 +7,18 @@
   "scripts": {
     "build": "tsc",
     "build:docker": "tsc --module commonjs",
+    "docker:start": "docker-compose up -d --build --force-recreate",
+    "docker:stop": "docker-compose stop",
     "start:app": "node ./dist/app/src/server.js",
+    "start:api": "node ./dist/api/src/server.js",
     "send:tasks": "node ./dist/script/tasks.js"
   },
   "dependencies": {
     "axios": "^0.21.4",
+    "dayjs": "^1.11.3",
     "fastify": "^3.21.3",
+    "fastify-plugin": "^3.0.1",
+    "mongoose": "^6.3.6",
     "uuid": "^8.3.2"
   },
   "license": "UNLICENSED",
