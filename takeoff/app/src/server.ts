@@ -1,31 +1,43 @@
-import fastify from 'fastify';
-import { UserTaskData } from '../../share';
+import fastify from "fastify";
+import { UserTaskData } from "../../share";
+import db from "../config/index";
 
-const server = fastify();
+const port = process.env.PORT || 3001;
+const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/club";
+const server = fastify({
+  logger: true,
+});
+
+server.register(db, { uri });
+
+server.get("/", async (req, res) => {
+  res.send("hello");
+});
 
 server.post<{
-  Body: UserTaskData,
+  Body: UserTaskData;
   Reply: {
-    success: boolean
-  }
-}>('/', async (request, reply) => {
+    success: boolean;
+  };
+}>("/", async (request, reply) => {
   const { uid, scheduledDate, timeZone } = request.body;
   console.log(
-    `Task for user ${uid} scheduled for ${
-      new Date(scheduledDate).toLocaleString("en-US", { timeZone })
-    }, ${timeZone} time, received at ${
-      new Date().toLocaleString("en-US")
-    }`);
+    `Task for user ${uid} scheduled for ${new Date(
+      scheduledDate
+    ).toLocaleString("en-US", {
+      timeZone,
+    })}, ${timeZone} time, received at ${new Date().toLocaleString("en-US")}`
+  );
   reply.send({
-    success: true
-  })
+    success: true,
+  });
 });
 
 (async () => {
   try {
-    await server.listen(8080, "0.0.0.0")
+    await server.listen(port);
   } catch (err) {
-    server.log.error(err)
-    process.exit(1)
+    server.log.error(err);
+    process.exit(1);
   }
 })();
